@@ -1,0 +1,23 @@
+# Keep build context small & secrets out of image layers.
+.git
+.github
+.gitignore
+
+# Installed/built artifacts — rebuilt inside the image
+node_modules/
+dist/
+
+# Secrets / local env — never enter an image.
+# NOTE: .env.production is intentionally EXCLUDED. It hardcodes
+# VITE_API_URL=http://localhost:5000/api which is wrong inside the container
+# (the browser would hit localhost). The image build instead sets VITE_API_URL=/api
+# via the Dockerfile ARG, so the SPA calls same-origin "/api" through the Nginx proxy.
+.env
+.env.*
+!.env.example
+
+# Docs / editor / coverage
+*.md
+coverage/
+.vscode/
+.idea/
